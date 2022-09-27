@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "prettier --check . && eslint . && stylelint \"**/*.scss\"",
+    "lint:fix": "prettier --write . && eslint . --fix && stylelint \"**/*scss\" --fix",
     "prepare": "husky install"
   },
   "repository": {
@@ -27,10 +29,16 @@
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "stylelint": "^14.12.1",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard": "^28.0.0",
+    "stylelint-config-standard-scss": "^5.0.0"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,css,scss,md,json,html}": "prettier --write"
+    "*.ts": "eslint --cache --fix",
+    "*.scss": "stylelint --fix",
+    "*.{scss,md,json,html}": "prettier --write"
   }
 }
