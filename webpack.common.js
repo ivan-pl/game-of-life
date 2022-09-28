@@ -13,10 +13,13 @@ module.exports = {
       arrowFunction: false,
     },
   },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.[jt]s$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
