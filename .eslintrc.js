@@ -12,6 +12,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "jest"],
   rules: {
+    "no-restricted-syntax": "off",
     "no-plusplus": "off",
     "no-continue": "off",
     "import/no-unresolved": "off", // https://github.com/typescript-eslint/typescript-eslint/issues/1624
