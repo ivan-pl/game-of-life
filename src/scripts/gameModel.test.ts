@@ -169,5 +169,21 @@ describe("GameModel", () => {
       gameModel.nextGeneration();
       expect(gameModel.isGameFinished()).toBeFalsy();
     });
+
+    it(".clearField", () => {
+      gameModel.toggleCellState(1, 1);
+      gameModel.toggleCellState(0, 0);
+      expect(gameModel.getState()).toEqual([
+        [1, 0],
+        [0, 1],
+        [0, 0],
+      ]);
+      gameModel.clearField();
+      expect(gameModel.getState()).toEqual([
+        [0, 0],
+        [0, 0],
+        [0, 0],
+      ]);
+    });
   });
 });

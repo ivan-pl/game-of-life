@@ -12,6 +12,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "jest"],
   rules: {
+    "no-alert": "off",
     "no-restricted-syntax": "off",
     "no-plusplus": "off",
     "no-continue": "off",
@@ -25,6 +26,12 @@ module.exports = {
         "import/no-extraneous-dependencies": "off",
         "import/extensions": "off",
         "@typescript-eslint/no-var-requires": "off",
+      },
+    },
+    {
+      files: ["*.test.ts"],
+      rules: {
+        "no-promise-executor-return": "off",
       },
     },
   ],

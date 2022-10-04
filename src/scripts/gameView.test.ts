@@ -15,6 +15,10 @@ describe("GameView", () => {
     gameField = document.createElement("section");
     gameField.classList.add("field");
 
+    const actionButton = document.createElement("button");
+    actionButton.id = "action";
+    document.body.append(actionButton);
+
     gameView = new GameView(gameField);
     gameController = new GameController(gameModel, gameView);
   });
@@ -92,6 +96,26 @@ describe("GameView", () => {
     );
     cells.forEach((cell) => {
       expect(cell.classList.contains("field__cell--alive")).toBeFalsy();
+    });
+  });
+
+  it(".onActionClick", () => {
+    const button = gameView.actionButton;
+    button.innerText = "Start";
+    button.dispatchEvent(new Event("click"));
+    expect(button.innerText).toBe("Stop");
+
+    button.dispatchEvent(new Event("click"));
+    expect(button.innerText).toBe("Start");
+  });
+
+  it(".setButtonStart", () => {
+    const button = gameView.actionButton;
+    const testCases = ["Start", "Stop", "Some text"];
+    testCases.forEach((str) => {
+      button.innerText = str;
+      gameView.setButtonStart();
+      expect(button.innerText).toBe("Start");
     });
   });
 });

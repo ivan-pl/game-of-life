@@ -5,6 +5,10 @@ import { Cell } from "./types/Cell";
 export interface IGameController {
   getField(): Cell[][];
   onCellClick(x: number, y: number): void;
+  onActivationClick(): void;
+  startAction(): void;
+  stopAction(): void;
+  newGame(): void;
 }
 
 export class GameController implements IGameController {
@@ -12,9 +16,16 @@ export class GameController implements IGameController {
 
   gameModel: IGameModel;
 
-  constructor(gameModel: IGameModel, gameView: IGameView) {
+  speed: number;
+
+  isActive = false;
+
+  timerId: number | undefined;
+
+  constructor(gameModel: IGameModel, gameView: IGameView, speed = 1) {
     this.gameModel = gameModel;
     this.gameView = gameView;
+    this.speed = speed;
 
     this.gameView.initialize(this);
   }
@@ -25,5 +36,39 @@ export class GameController implements IGameController {
 
   onCellClick(x: number, y: number): void {
     this.gameModel.toggleCellState(x, y);
+  }
+
+  onActivationClick(): void {
+    if (this.isActive) {
+      this.stopAction();
+    } else {
+      this.startAction();
+    }
+  }
+
+  startAction() {
+    this.isActive = true;
+    this.timerId = window.setInterval(() => {
+      this.gameModel.nextGeneration();
+      if (this.gameModel.isGameFinished()) {
+        this.stopAction();
+        alert("Игра закончена");
+        this.newGame();
+      }
+      const newState = this.gameModel.getState();
+      this.gameView.updateField(newState);
+    }, this.speed * 1000);
+  }
+
+  stopAction() {
+    this.isActive = false;
+    window.clearInterval(this.timerId);
+  }
+
+  newGame() {
+    this.gameModel.clearField();
+    const newState = this.gameModel.getState();
+    this.gameView.updateField(newState);
+    this.gameView.setButtonStart();
   }
 }

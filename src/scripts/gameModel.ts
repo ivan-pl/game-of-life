@@ -6,6 +6,7 @@ export interface IGameModel {
   nextGeneration(): void;
   setSize(width: number, height: number): void;
   isGameFinished(): boolean;
+  clearField(): void;
 }
 
 export class GameModel implements IGameModel {
@@ -98,5 +99,13 @@ export class GameModel implements IGameModel {
     }
 
     return true;
+  }
+
+  clearField() {
+    for (let row = 0; row < this.field.length; row++) {
+      for (let col = 0; col < this.field[row].length; col++) {
+        this.field[row][col] = 0;
+      }
+    }
   }
 }
