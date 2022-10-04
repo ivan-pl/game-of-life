@@ -1,22 +1,22 @@
 import { GameView } from "./gameView";
 import { GameModel } from "./gameModel";
-import { Cell } from "./types/Cell";
+import { GameController, IGameController } from "./gameController";
 
 describe("GameView", () => {
   const width = 5;
   const height = 6;
   let gameView: GameView;
   let gameModel: GameModel;
+  let gameController: IGameController;
   let gameField: HTMLElement;
-  let field: Cell[][];
 
   beforeEach(() => {
     gameModel = new GameModel(width, height);
-    field = gameModel.getState();
     gameField = document.createElement("section");
     gameField.classList.add("field");
 
-    gameView = new GameView(gameField, field);
+    gameView = new GameView(gameField);
+    gameController = new GameController(gameModel, gameView);
   });
 
   it("is a class", () => {
@@ -24,9 +24,15 @@ describe("GameView", () => {
     expect(gameView).toBeInstanceOf(GameView);
   });
 
-  it("supports constructor(field)", () => {
-    const cellCount = gameField.querySelectorAll(".field__cell").length;
-    expect(cellCount).toBe(width * height);
+  it(".setSize", () => {
+    const newWidth = 6;
+    const newHeight = 8;
+
+    gameView.setSize(newWidth, newHeight);
+    const cellsCount = gameField.querySelectorAll(".field__cell").length;
+    const rows = gameField.querySelectorAll("br").length + 1;
+    expect(cellsCount).toBe(newWidth * newHeight);
+    expect(rows).toBe(newHeight);
   });
 
   it(".updateField", () => {
@@ -61,5 +67,31 @@ describe("GameView", () => {
         expect(cell.classList.contains("field__cell--alive")).toBeFalsy();
       }
     }
+  });
+
+  it(".initialize", () => {
+    expect(gameView.gameController).toBe(gameController);
+    const cells = gameField.querySelectorAll(".field__cell");
+    expect(cells.length).toBe(width * height);
+
+    const clickedElements = [1, 4, 7];
+
+    clickedElements.forEach((pos) =>
+      cells[pos].dispatchEvent(new Event("click"))
+    );
+    cells.forEach((cell, pos) => {
+      if (clickedElements.includes(pos)) {
+        expect(cell.classList.contains("field__cell--alive")).toBeTruthy();
+      } else {
+        expect(cell.classList.contains("field__cell--alive")).toBeFalsy();
+      }
+    });
+
+    clickedElements.forEach((pos) =>
+      cells[pos].dispatchEvent(new Event("click"))
+    );
+    cells.forEach((cell) => {
+      expect(cell.classList.contains("field__cell--alive")).toBeFalsy();
+    });
   });
 });

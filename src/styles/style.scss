@@ -49,6 +49,7 @@
 .field {
   background-color: aliceblue;
   padding: auto;
+  line-height: 0;
 
   &__cell {
     display: inline-block;
@@ -56,9 +57,29 @@
     height: 2rem;
     background-color: white;
     border: 1px solid tomato;
+    margin: 3px;
 
     &--alive {
       background-color: black;
     }
+  }
+}
+
+.interface {
+  width: fit-content;
+
+  &__input {
+    width: 50px;
+    margin: 0 3px;
+
+    &--range {
+      width: 80px;
+    }
+  }
+
+  &__set-size {
+    display: flex;
+    justify-content: space-between;
+    margin: 3px;
   }
 }

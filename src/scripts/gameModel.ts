@@ -5,8 +5,6 @@ export interface IGameModel {
   toggleCellState(x: number, y: number): void;
   nextGeneration(): void;
   setSize(width: number, height: number): void;
-  isInsideField(x: number, height: number): boolean;
-  countNeighbors(x: number, y: number): number;
   isGameFinished(): boolean;
 }
 

@@ -9,18 +9,42 @@
   <body class="page">
     <main class="game">
       <h1 class="game__header">Игра «Жизнь»</h1>
-      <section class="field game__field">
-        <div class="field__cell field__cell--alive"></div>
-        <div class="field__cell"></div>
-        <div class="field__cell"></div>
-        <br />
-        <div class="field__cell"></div>
-        <div class="field__cell"></div>
-        <div class="field__cell"></div>
-        <br />
-        <div class="field__cell"></div>
-        <div class="field__cell"></div>
-        <div class="field__cell"></div>
+      <section class="field game__field"></section>
+      <section class="interface game__interface">
+        <div class="interface__set-size">
+          <label for="width">Ширина: </label>
+          <input
+            class="interface__input"
+            name="width"
+            id="width"
+            type="number"
+            value="7"
+          />
+
+          <label for="height">Высота: </label>
+          <input
+            class="interface__input"
+            name="height"
+            id="height"
+            type="number"
+            value="7"
+          />
+          <button class="interface__button-size">Изменить</button>
+        </div>
+
+        <div class="interface__speed">
+          <label for="speed">Скорость: </label>
+          <input
+            class="interface__input interface__input--range"
+            id="speed"
+            type="range"
+            min="0.5"
+            max="5"
+            step="0.5"
+            value="1"
+            placeholder="1"
+          />
+        </div>
       </section>
       <article class="rules game__rules">
         <h2 class="rules__header">Правила игры</h2>
