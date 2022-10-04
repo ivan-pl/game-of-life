@@ -34,6 +34,7 @@ describe("GameController", () => {
       onCellClick: jest.fn(),
       onActionClick: jest.fn(),
       setButtonStart: jest.fn(),
+      onSetSizeClick: jest.fn(),
     })
   );
 
@@ -108,5 +109,15 @@ describe("GameController", () => {
     await sleep(600);
     expect(gameController.stopAction).toHaveBeenCalledTimes(1);
     expect(gameController.newGame).toHaveBeenCalledTimes(1);
+  });
+
+  it(".changeSize", () => {
+    const width = 5;
+    const height = 10;
+    gameController.changeSize(width, height);
+
+    expect(gameModel.setSize).toHaveBeenCalledWith(width, height);
+    expect(gameView.setSize).toHaveBeenCalledWith(width, height);
+    expect(gameView.updateField).toHaveBeenCalledWith(gameModel.getState());
   });
 });

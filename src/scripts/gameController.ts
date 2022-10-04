@@ -9,6 +9,7 @@ export interface IGameController {
   startAction(): void;
   stopAction(): void;
   newGame(): void;
+  changeSize(width: number, height: number): void;
 }
 
 export class GameController implements IGameController {
@@ -70,5 +71,13 @@ export class GameController implements IGameController {
     const newState = this.gameModel.getState();
     this.gameView.updateField(newState);
     this.gameView.setButtonStart();
+  }
+
+  changeSize(width: number, height: number): void {
+    this.gameModel.setSize(width, height);
+    this.gameView.setSize(width, height);
+
+    const newState = this.gameModel.getState();
+    this.gameView.updateField(newState);
   }
 }

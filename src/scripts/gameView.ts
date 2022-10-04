@@ -7,6 +7,7 @@ export interface IGameView {
   initialize(controller: IGameController): void;
   onCellClick(event: Event): void;
   onActionClick(event: Event): void;
+  onSetSizeClick(): void;
   setButtonStart(): void;
 }
 
@@ -15,14 +16,31 @@ export class GameView implements IGameView {
 
   actionButton: HTMLButtonElement;
 
+  setSizeButton: HTMLButtonElement;
+
+  inputWidth: HTMLInputElement;
+
+  inputHeight: HTMLInputElement;
+
   gameController: IGameController | undefined;
 
   constructor(el: HTMLElement) {
     this.field = el;
+
     this.actionButton = document.getElementById("action") as HTMLButtonElement;
     this.actionButton.addEventListener("click", (e) => {
       this.onActionClick(e);
     });
+
+    this.setSizeButton = document.getElementById(
+      "set-size"
+    ) as HTMLButtonElement;
+    this.setSizeButton.addEventListener("click", () => {
+      this.onSetSizeClick();
+    });
+
+    this.inputWidth = document.getElementById("width") as HTMLInputElement;
+    this.inputHeight = document.getElementById("height") as HTMLInputElement;
   }
 
   initialize(controller: IGameController): void {
@@ -88,5 +106,11 @@ export class GameView implements IGameView {
 
   setButtonStart() {
     this.actionButton.innerText = "Start";
+  }
+
+  onSetSizeClick(): void {
+    const width: number = +this.inputWidth.value;
+    const height: number = +this.inputHeight.value;
+    this.gameController?.changeSize(width, height);
   }
 }

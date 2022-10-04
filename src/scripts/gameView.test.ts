@@ -10,14 +10,34 @@ describe("GameView", () => {
   let gameController: IGameController;
   let gameField: HTMLElement;
 
-  beforeEach(() => {
-    gameModel = new GameModel(width, height);
+  function addLayout() {
     gameField = document.createElement("section");
     gameField.classList.add("field");
 
     const actionButton = document.createElement("button");
     actionButton.id = "action";
-    document.body.append(actionButton);
+
+    const setSizeButton = document.createElement("button");
+    setSizeButton.id = "set-size";
+
+    const inputWidth = document.createElement("input");
+    inputWidth.id = "width";
+
+    const inputHeight = document.createElement("input");
+    inputHeight.id = "height";
+
+    document.body.append(
+      gameField,
+      setSizeButton,
+      actionButton,
+      inputHeight,
+      inputWidth
+    );
+  }
+
+  beforeEach(() => {
+    gameModel = new GameModel(width, height);
+    addLayout();
 
     gameView = new GameView(gameField);
     gameController = new GameController(gameModel, gameView);
@@ -117,5 +137,22 @@ describe("GameView", () => {
       gameView.setButtonStart();
       expect(button.innerText).toBe("Start");
     });
+  });
+
+  it(".onSetSizeClick", () => {
+    jest.spyOn(gameView, "setSize");
+    const button = document.getElementById("set-size") as HTMLButtonElement;
+    const inputWidth = document.getElementById("width") as HTMLInputElement;
+    const inputHeight = document.getElementById("height") as HTMLInputElement;
+
+    inputWidth.value = "10";
+    inputHeight.value = "12";
+    button.dispatchEvent(new Event("click"));
+    expect(gameView.setSize).toHaveBeenCalledWith(10, 12);
+
+    inputWidth.value = "3";
+    inputHeight.value = "5";
+    button.dispatchEvent(new Event("click"));
+    expect(gameView.setSize).toHaveBeenCalledWith(3, 5);
   });
 });
