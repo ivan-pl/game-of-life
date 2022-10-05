@@ -35,6 +35,9 @@ describe("GameView", () => {
     const fillButton = document.createElement("button");
     fillButton.id = "fill-randomly";
 
+    const clearButton = document.createElement("button");
+    clearButton.id = "clear";
+
     document.body.append(
       gameField,
       setSizeButton,
@@ -43,12 +46,14 @@ describe("GameView", () => {
       inputWidth,
       inputSpeed,
       outputSpeed,
-      fillButton
+      fillButton,
+      clearButton
     );
   }
 
   beforeEach(() => {
     gameModel = new GameModel(width, height);
+    document.body.textContent = "";
     addLayout();
 
     gameView = new GameView(gameField);
@@ -190,5 +195,24 @@ describe("GameView", () => {
 
     button.dispatchEvent(new Event("click"));
     expect(gameController.fillRandomly).toHaveBeenCalled();
+  });
+
+  it(".onClearClick", () => {
+    expect(document.querySelectorAll(".field__cell--alive").length).toBe(0);
+
+    const cells = document.querySelectorAll(".field__cell");
+    expect(cells.length).toBe(width * height);
+
+    const aliveCellsCount = 3;
+    for (let i = 0; i < aliveCellsCount; i++) {
+      cells[i].dispatchEvent(new Event("click"));
+    }
+    expect(document.querySelectorAll(".field__cell--alive").length).toBe(
+      aliveCellsCount
+    );
+
+    const clearButton = document.getElementById("clear") as HTMLButtonElement;
+    clearButton.dispatchEvent(new Event("click"));
+    expect(document.querySelectorAll(".field__cell--alive").length).toBe(0);
   });
 });

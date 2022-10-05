@@ -37,6 +37,7 @@ describe("GameController", () => {
       onSetSizeClick: jest.fn(),
       onSpeedChange: jest.fn(),
       onFillRandomlyClick: jest.fn(),
+      onClearClick: jest.fn(),
     })
   );
 
