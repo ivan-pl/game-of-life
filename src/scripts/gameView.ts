@@ -139,7 +139,7 @@ export class GameView implements IGameView {
 
   onSpeedChange(): void {
     const speed = this.inputSpeed.value;
-    this.outputSpeed.innerText = `${speed} с`;
+    this.outputSpeed.innerText = `${speed} s`;
     this.gameController?.changeSpeed(+speed);
   }
 

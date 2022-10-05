@@ -182,7 +182,7 @@ describe("GameView", () => {
     speedRange.forEach((val) => {
       input.value = val;
       input.dispatchEvent(new Event("input"));
-      expect(output.innerText).toBe(`${val} с`);
+      expect(output.innerText).toBe(`${val} s`);
       expect(gameController.changeSpeed).toHaveBeenCalledWith(+val);
     });
   });
