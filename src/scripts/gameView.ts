@@ -9,6 +9,7 @@ export interface IGameView {
   onActionClick(event: Event): void;
   onSetSizeClick(): void;
   setButtonStart(): void;
+  onSpeedChange(): void;
 }
 
 export class GameView implements IGameView {
@@ -21,6 +22,10 @@ export class GameView implements IGameView {
   inputWidth: HTMLInputElement;
 
   inputHeight: HTMLInputElement;
+
+  inputSpeed: HTMLInputElement;
+
+  outputSpeed: HTMLOutputElement;
 
   gameController: IGameController | undefined;
 
@@ -41,6 +46,14 @@ export class GameView implements IGameView {
 
     this.inputWidth = document.getElementById("width") as HTMLInputElement;
     this.inputHeight = document.getElementById("height") as HTMLInputElement;
+
+    this.inputSpeed = document.getElementById("speed") as HTMLInputElement;
+    this.outputSpeed = document.getElementById(
+      "speed-output"
+    ) as HTMLOutputElement;
+    this.inputSpeed.addEventListener("input", () => {
+      this.onSpeedChange();
+    });
   }
 
   initialize(controller: IGameController): void {
@@ -112,5 +125,11 @@ export class GameView implements IGameView {
     const width: number = +this.inputWidth.value;
     const height: number = +this.inputHeight.value;
     this.gameController?.changeSize(width, height);
+  }
+
+  onSpeedChange(): void {
+    const speed = this.inputSpeed.value;
+    this.outputSpeed.innerText = `${speed} с`;
+    this.gameController?.changeSpeed(+speed);
   }
 }

@@ -26,12 +26,20 @@ describe("GameView", () => {
     const inputHeight = document.createElement("input");
     inputHeight.id = "height";
 
+    const inputSpeed = document.createElement("input");
+    inputSpeed.id = "speed";
+
+    const outputSpeed = document.createElement("output");
+    outputSpeed.id = "speed-output";
+
     document.body.append(
       gameField,
       setSizeButton,
       actionButton,
       inputHeight,
-      inputWidth
+      inputWidth,
+      inputSpeed,
+      outputSpeed
     );
   }
 
@@ -154,5 +162,19 @@ describe("GameView", () => {
     inputHeight.value = "5";
     button.dispatchEvent(new Event("click"));
     expect(gameView.setSize).toHaveBeenCalledWith(3, 5);
+  });
+
+  it(".onSpeedChange", () => {
+    const input = document.getElementById("speed") as HTMLInputElement;
+    const output = document.getElementById("speed-output") as HTMLOutputElement;
+    gameController.changeSpeed = jest.fn();
+
+    const speedRange = ["0.5", "1", "3", "5"];
+    speedRange.forEach((val) => {
+      input.value = val;
+      input.dispatchEvent(new Event("input"));
+      expect(output.innerText).toBe(`${val} с`);
+      expect(gameController.changeSpeed).toHaveBeenCalledWith(+val);
+    });
   });
 });

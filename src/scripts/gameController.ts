@@ -10,6 +10,8 @@ export interface IGameController {
   stopAction(): void;
   newGame(): void;
   changeSize(width: number, height: number): void;
+  getSpeed(): number;
+  changeSpeed(speed: number): void;
 }
 
 export class GameController implements IGameController {
@@ -79,5 +81,17 @@ export class GameController implements IGameController {
 
     const newState = this.gameModel.getState();
     this.gameView.updateField(newState);
+  }
+
+  changeSpeed(speed: number): void {
+    this.speed = speed;
+    if (this.isActive) {
+      this.stopAction();
+      this.startAction();
+    }
+  }
+
+  getSpeed(): number {
+    return this.speed;
   }
 }

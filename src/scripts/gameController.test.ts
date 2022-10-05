@@ -35,6 +35,7 @@ describe("GameController", () => {
       onActionClick: jest.fn(),
       setButtonStart: jest.fn(),
       onSetSizeClick: jest.fn(),
+      onSpeedChange: jest.fn(),
     })
   );
 
@@ -119,5 +120,21 @@ describe("GameController", () => {
     expect(gameModel.setSize).toHaveBeenCalledWith(width, height);
     expect(gameView.setSize).toHaveBeenCalledWith(width, height);
     expect(gameView.updateField).toHaveBeenCalledWith(gameModel.getState());
+  });
+
+  it(".changeSpeed", () => {
+    const newSpeed = 0.5;
+    gameController.startAction = jest.fn(function startAction(
+      this: GameController
+    ) {
+      this.isActive = true;
+    });
+    gameController.stopAction = jest.fn();
+
+    gameController.startAction();
+    gameController.changeSpeed(newSpeed);
+    expect(gameController.getSpeed()).toBe(newSpeed);
+    expect(gameController.stopAction).toHaveBeenCalled();
+    expect(gameController.startAction).toHaveBeenCalledTimes(2);
   });
 });
