@@ -32,6 +32,9 @@ describe("GameView", () => {
     const outputSpeed = document.createElement("output");
     outputSpeed.id = "speed-output";
 
+    const fillButton = document.createElement("button");
+    fillButton.id = "fill-randomly";
+
     document.body.append(
       gameField,
       setSizeButton,
@@ -39,7 +42,8 @@ describe("GameView", () => {
       inputHeight,
       inputWidth,
       inputSpeed,
-      outputSpeed
+      outputSpeed,
+      fillButton
     );
   }
 
@@ -176,5 +180,15 @@ describe("GameView", () => {
       expect(output.innerText).toBe(`${val} с`);
       expect(gameController.changeSpeed).toHaveBeenCalledWith(+val);
     });
+  });
+
+  it(".onFillRandomlyClick", () => {
+    const button = document.getElementById(
+      "fill-randomly"
+    ) as HTMLButtonElement;
+    gameController.fillRandomly = jest.fn();
+
+    button.dispatchEvent(new Event("click"));
+    expect(gameController.fillRandomly).toHaveBeenCalled();
   });
 });

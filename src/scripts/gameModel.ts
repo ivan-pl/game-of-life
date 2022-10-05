@@ -22,7 +22,8 @@ export class GameModel implements IGameModel {
   }
 
   getState(): Cell[][] {
-    return this.field;
+    const copiedField = this.field.map((col) => col.slice());
+    return copiedField;
   }
 
   toggleCellState(x: number, y: number): void {

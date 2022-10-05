@@ -10,6 +10,7 @@ export interface IGameView {
   onSetSizeClick(): void;
   setButtonStart(): void;
   onSpeedChange(): void;
+  onFillRandomlyClick(): void;
 }
 
 export class GameView implements IGameView {
@@ -43,6 +44,10 @@ export class GameView implements IGameView {
     this.setSizeButton.addEventListener("click", () => {
       this.onSetSizeClick();
     });
+
+    document
+      .getElementById("fill-randomly")
+      ?.addEventListener("click", () => this.onFillRandomlyClick());
 
     this.inputWidth = document.getElementById("width") as HTMLInputElement;
     this.inputHeight = document.getElementById("height") as HTMLInputElement;
@@ -131,5 +136,9 @@ export class GameView implements IGameView {
     const speed = this.inputSpeed.value;
     this.outputSpeed.innerText = `${speed} с`;
     this.gameController?.changeSpeed(+speed);
+  }
+
+  onFillRandomlyClick(): void {
+    this.gameController?.fillRandomly();
   }
 }

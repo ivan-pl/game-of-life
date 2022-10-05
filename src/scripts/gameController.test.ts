@@ -36,6 +36,7 @@ describe("GameController", () => {
       setButtonStart: jest.fn(),
       onSetSizeClick: jest.fn(),
       onSpeedChange: jest.fn(),
+      onFillRandomlyClick: jest.fn(),
     })
   );
 
@@ -136,5 +137,21 @@ describe("GameController", () => {
     expect(gameController.getSpeed()).toBe(newSpeed);
     expect(gameController.stopAction).toHaveBeenCalled();
     expect(gameController.startAction).toHaveBeenCalledTimes(2);
+  });
+
+  it(".fillRandomly", () => {
+    const spyMathRandom = jest
+      .spyOn(Math, "random")
+      .mockReturnValueOnce(0.7)
+      .mockReturnValueOnce(0.55)
+      .mockReturnValue(0.2);
+    gameController.fillRandomly();
+    const countCells = state.reduce(
+      (count: number, col: Cell[]): number => count + col.length,
+      0
+    );
+
+    expect(spyMathRandom).toHaveBeenCalledTimes(countCells);
+    expect(gameModel.toggleCellState).toHaveBeenCalledTimes(2);
   });
 });

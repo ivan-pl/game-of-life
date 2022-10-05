@@ -12,6 +12,7 @@ export interface IGameController {
   changeSize(width: number, height: number): void;
   getSpeed(): number;
   changeSpeed(speed: number): void;
+  fillRandomly(): void;
 }
 
 export class GameController implements IGameController {
@@ -93,5 +94,20 @@ export class GameController implements IGameController {
 
   getSpeed(): number {
     return this.speed;
+  }
+
+  fillRandomly(): void {
+    const field = this.getField();
+    for (let row = 0; row < field.length; row++) {
+      for (let col = 0; col < field[row].length; col++) {
+        const isToogled = Math.random() > 0.5;
+        if (isToogled) {
+          this.gameModel.toggleCellState(col, row);
+        }
+      }
+    }
+
+    const newField = this.getField();
+    this.gameView.updateField(newField);
   }
 }
