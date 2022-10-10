@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "prettier --check . && eslint . --ext .js,.ts && tsc --noEmit && stylelint \"**/*.scss\"",
     "lint:fix": "prettier --write . && eslint . --fix --ext .js,.ts && stylelint \"**/*scss\" --fix",
     "prepare": "husky install",
@@ -52,6 +52,7 @@
     "lint-staged": "^13.0.3",
     "mini-css-extract-plugin": "^2.6.1",
     "prettier": "2.7.1",
+    "sass": "^1.55.0",
     "sass-loader": "^13.0.2",
     "stylelint": "^14.12.1",
     "stylelint-config-prettier": "^9.0.3",
