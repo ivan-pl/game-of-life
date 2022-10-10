@@ -161,7 +161,7 @@ describe("GameModel", () => {
         [0, 0],
       ]);
       expect(gameModel.nextGeneration()).toBeFalsy();
-      
+
       gameModel.toggleCellState(1, 2);
       expect(gameModel.nextGeneration()).toBeTruthy();
     });
