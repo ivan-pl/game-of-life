@@ -21,6 +21,8 @@ export class GameView implements IGameView {
 
   setSizeButton: HTMLButtonElement;
 
+  clearButton: HTMLButtonElement;
+
   inputWidth: HTMLInputElement;
 
   inputHeight: HTMLInputElement;
@@ -46,13 +48,12 @@ export class GameView implements IGameView {
       this.onSetSizeClick();
     });
 
+    this.clearButton = document.getElementById("clear") as HTMLButtonElement;
+    this.clearButton.addEventListener("click", () => this.onClearClick());
+
     document
       .getElementById("fill-randomly")
       ?.addEventListener("click", () => this.onFillRandomlyClick());
-
-    document
-      .getElementById("clear")
-      ?.addEventListener("click", () => this.onClearClick());
 
     this.inputWidth = document.getElementById("width") as HTMLInputElement;
     this.inputHeight = document.getElementById("height") as HTMLInputElement;
@@ -119,12 +120,24 @@ export class GameView implements IGameView {
 
     const [x, y] = GameView.getCoordinates(cell);
     this.gameController?.onCellClick(x, y);
+
+    this.disablingButtons();
   }
 
   onActionClick(event: Event): void {
     const button = event.target as HTMLButtonElement;
     button.innerText = button.innerText === "Start" ? "Stop" : "Start";
     this.gameController?.onActivationClick();
+  }
+
+  disablingButtons(): void {
+    if (this.field.querySelector(".field__cell--alive")) {
+      this.clearButton.disabled = false;
+      this.actionButton.disabled = false;
+    } else {
+      this.clearButton.disabled = true;
+      this.actionButton.disabled = true;
+    }
   }
 
   setButtonStart() {
@@ -145,6 +158,7 @@ export class GameView implements IGameView {
 
   onFillRandomlyClick(): void {
     this.gameController?.fillRandomly();
+    this.disablingButtons();
   }
 
   onClearClick(): void {
