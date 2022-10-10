@@ -3,9 +3,8 @@ import { Cell } from "./types/Cell";
 export interface IGameModel {
   getState(): Cell[][];
   toggleCellState(x: number, y: number): void;
-  nextGeneration(): void;
+  nextGeneration(): boolean;
   setSize(width: number, height: number): void;
-  isGameFinished(): boolean;
   clearField(): void;
 }
 
@@ -59,8 +58,10 @@ export class GameModel implements IGameModel {
     return count;
   }
 
-  nextGeneration() {
+  nextGeneration(): boolean {
     const newField = [];
+    let isGameFinished = true;
+
     for (let row = 0; row < this.field.length; row++) {
       newField.push(new Array(this.field[0].length).fill(0));
       for (let col = 0; col < this.field[0].length; col++) {
@@ -70,11 +71,17 @@ export class GameModel implements IGameModel {
         } else {
           newField[row][col] = neighbors === 2 || neighbors === 3 ? 1 : 0;
         }
+
+        if (isGameFinished && newField[row][col] !== this.field[row][col]) {
+          isGameFinished = false;
+        }
       }
     }
 
     this.prevField = this.field;
     this.field = newField;
+
+    return !isGameFinished;
   }
 
   setSize(width: number, height: number): void {
@@ -88,18 +95,6 @@ export class GameModel implements IGameModel {
     }
 
     this.field = newField;
-  }
-
-  isGameFinished() {
-    for (let row = 0; row < this.field.length; row++) {
-      for (let col = 0; col < this.field[row].length; col++) {
-        if (this.field[row][col] !== this.prevField[row][col]) {
-          return false;
-        }
-      }
-    }
-
-    return true;
   }
 
   clearField() {

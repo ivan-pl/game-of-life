@@ -19,9 +19,8 @@ describe("GameController", () => {
     (): IGameModel => ({
       getState: jest.fn(() => state),
       toggleCellState: jest.fn(),
-      nextGeneration: jest.fn(),
+      nextGeneration: jest.fn().mockReturnValue(true),
       setSize: jest.fn(),
-      isGameFinished: jest.fn(),
       clearField: jest.fn(),
     })
   );
@@ -108,7 +107,7 @@ describe("GameController", () => {
     expect(gameModel.nextGeneration).toHaveBeenCalledTimes(1);
     expect(gameView.updateField).toHaveBeenCalledTimes(1);
 
-    gameModel.isGameFinished = jest.fn().mockReturnValue(true);
+    gameModel.nextGeneration = jest.fn().mockReturnValue(false);
     await sleep(600);
     expect(gameController.stopAction).toHaveBeenCalledTimes(1);
     expect(gameController.newGame).toHaveBeenCalledTimes(1);

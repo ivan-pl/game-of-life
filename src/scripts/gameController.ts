@@ -53,8 +53,7 @@ export class GameController implements IGameController {
   startAction() {
     this.isActive = true;
     this.timerId = window.setInterval(() => {
-      this.gameModel.nextGeneration();
-      if (this.gameModel.isGameFinished()) {
+      if (!this.gameModel.nextGeneration()) {
         this.stopAction();
         alert("Игра закончена");
         this.newGame();

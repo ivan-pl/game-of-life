@@ -116,7 +116,7 @@ describe("GameModel", () => {
         [0, 0, 0, 0],
         [0, 0, 0, 0],
       ]);
-      gameModel.nextGeneration();
+      expect(gameModel.nextGeneration()).toBeTruthy();
       expect(gameModel.getState()).toEqual([
         [1, 1, 0, 0],
         [1, 1, 0, 0],
@@ -133,7 +133,7 @@ describe("GameModel", () => {
         [0, 1, 1, 0],
         [0, 0, 0, 0],
       ]);
-      gameModel.nextGeneration();
+      expect(gameModel.nextGeneration()).toBeTruthy();
       expect(gameModel.getState()).toEqual([
         [1, 0, 1, 0],
         [0, 0, 0, 0],
@@ -141,18 +141,16 @@ describe("GameModel", () => {
         [0, 0, 0, 0],
       ]);
 
-      gameModel.nextGeneration();
+      expect(gameModel.nextGeneration()).toBeTruthy();
       expect(gameModel.getState()).toEqual([
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
       ]);
-    });
+      expect(gameModel.nextGeneration()).toBeFalsy();
 
-    it(".isGameFinished", () => {
-      expect(gameModel.isGameFinished()).toBeTruthy();
-
+      gameModel.setSize(2, 3);
       gameModel.toggleCellState(0, 0);
       gameModel.toggleCellState(1, 1);
       gameModel.toggleCellState(0, 1);
@@ -162,12 +160,10 @@ describe("GameModel", () => {
         [1, 1],
         [0, 0],
       ]);
-      gameModel.nextGeneration();
-      expect(gameModel.isGameFinished()).toBeTruthy();
-
+      expect(gameModel.nextGeneration()).toBeFalsy();
+      
       gameModel.toggleCellState(1, 2);
-      gameModel.nextGeneration();
-      expect(gameModel.isGameFinished()).toBeFalsy();
+      expect(gameModel.nextGeneration()).toBeTruthy();
     });
 
     it(".clearField", () => {
